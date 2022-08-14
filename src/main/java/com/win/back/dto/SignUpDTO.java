@@ -1,17 +1,15 @@
 package com.win.back.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class SignUpDTO {
     private String id;
     private String email;
     private String nickname;
     private String pw;
-
-    public SignUpDTO(String id, String email, String nickname, String pw) {
-        this.id = id;
-        this.email = email;
-        this.nickname = nickname;
-        this.pw = pw;
-    }
 
     @Override
     public String toString() {
