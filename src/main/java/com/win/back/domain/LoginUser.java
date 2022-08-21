@@ -7,13 +7,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginUser {
-    private String email;
+    private String id;
     private String pw;
+    private String phone;
+    private String nickname;
     private UserEnum userEnum;
 
-    public LoginUser(String email, String pw, UserEnum userEnum) {
-        this.email = email;
-        this.pw = pw;
-        this.userEnum = userEnum;
+    @Override
+    public String toString() {
+        return "LoginUser{" +
+                "id='" + id + '\'' +
+                ", pw='" + pw + '\'' +
+                ", phone='" + phone + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", userEnum=" + userEnum +
+                '}';
     }
 }

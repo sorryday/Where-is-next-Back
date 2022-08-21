@@ -19,10 +19,16 @@ public class emailAuthController {
     @Autowired
     EmailService service;
 
-    @PostMapping("email_service/mail_send")
+    @PostMapping("email_service/sign_up_mail_send")
     @ResponseBody
-    public String emailSend(@RequestBody String userId) throws Exception {
-        return  "\"" + service.sendSimpleMessage(userId) + "\"";
+    public String emailSendSignUp(@RequestBody String userId) throws Exception {
+        return  "\"" + service.sendSignUpMessage(userId) + "\"";
+    }
+
+    @PostMapping("email_service/search_auth_mail_send")
+    @ResponseBody
+    public String emailSendSearch(@RequestBody String userId) throws Exception {
+        return  "\"" + service.sendSearchMessage(userId) + "\"";
     }
 
     @PostMapping("email_service/mail_confirm")

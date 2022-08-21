@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
     private String code;
     public static final String ePw = createKey();
 
-    private MimeMessage createMessage(String to)throws Exception{
+    private MimeMessage createSignUpMessage(String to)throws Exception{
         System.out.println("보내는 대상 : "+ to);
         System.out.println("인증 번호 : "+ePw);
         MimeMessage message = emailSender.createMimeMessage();
@@ -40,6 +40,34 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<br>";
         msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
         msgg+= "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
+        msgg+= "<div style='font-size:130%'>";
+        msgg+= "CODE : <strong>";
+        msgg+= ePw+"</strong><div><br/> ";
+        msgg+= "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("rptqoxmf1@gmail.com","웨이네(where-is-next)"));//보내는 사람
+
+        return message;
+    }
+
+    private MimeMessage createSearchMessage(String to)throws Exception{
+        System.out.println("보내는 대상 : "+ to);
+        System.out.println("인증 번호 : "+ePw);
+        MimeMessage message = emailSender.createMimeMessage();
+
+        message.addRecipients(RecipientType.TO, to);//보내는 대상
+        message.setSubject("웨이네(where-is-next) 아이디 및 비밀번호 찾기 이메일 인증");//제목
+
+        String msgg="";
+        msgg+= "<div style='margin:100px;'>";
+        msgg+= "<h1> 안녕하세요 웨이네입니다. </h1>";
+        msgg+= "<br>";
+        msgg+= "<p>아래 코드를 아이디/비밀번호 창으로 돌아가 입력해주세요<p>";
+        msgg+= "<br>";
+        msgg+= "<p>감사합니다!<p>";
+        msgg+= "<br>";
+        msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg+= "<h3 style='color:blue;'>아이디/비밀번호 찾기 인증 코드입니다.</h3>";
         msgg+= "<div style='font-size:130%'>";
         msgg+= "CODE : <strong>";
         msgg+= ePw+"</strong><div><br/> ";
@@ -77,8 +105,22 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public String sendSimpleMessage(String to) throws Exception {
-        MimeMessage message = createMessage(to);
+    public String sendSignUpMessage(String to) throws Exception {
+        MimeMessage message = createSignUpMessage(to);
+        try{//예외처리
+            emailSender.send(message);
+            setCode(ePw);
+
+            return "ok";
+        }catch(MailException es) {
+            System.out.println(es.toString());
+            return "mailError";
+        }
+    }
+
+    @Override
+    public String sendSearchMessage(String to) throws Exception {
+        MimeMessage message = createSearchMessage(to);
         try{//예외처리
             emailSender.send(message);
             setCode(ePw);

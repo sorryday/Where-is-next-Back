@@ -1,9 +1,7 @@
 package com.win.back.entity;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,13 +14,12 @@ public class User {
 
     @Id
     private String id;
-
     @Column
     private String pw;
-    @Column
-    private String email;
-    @Column
+    @Column(nullable = false)
+    private String phoneNum;
+    @Column(nullable = false)
     private String nickname;
-    @Column
+    @Column(nullable = false)
     private String userEnum;
 }

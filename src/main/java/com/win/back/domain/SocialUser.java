@@ -9,27 +9,19 @@ import lombok.Setter;
 @Setter
 public class SocialUser {
 
-    private String key;  // 소셜 로그인의 id값 ( getId() ), LoginUser의 id
+    private String id;  // 소셜 로그인의 id값 ( getId() ), LoginUser의 id
     private String pw;
-    private String email;
-    private String name; // nickname
+    private String phone;
+    private String nickname; // nickname
     private UserEnum userEnum;
-
-    public SocialUser(String key, String pw, String email, String name, UserEnum userEnum) {
-        this.key = key;
-        this.pw = pw;
-        this.email = email;
-        this.name = name;
-        this.userEnum = userEnum;
-    }
 
     @Override
     public String toString() {
         return "SocialUser{" +
-                "key='" + key + '\'' +
+                "id='" + id + '\'' +
                 ", pw='" + pw + '\'' +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", name='" + nickname + '\'' +
                 ", userEnum=" + userEnum +
                 '}';
     }

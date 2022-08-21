@@ -1,19 +1,14 @@
 package com.win.back.controller;
 
-import com.win.back.domain.SocialUser;
 import com.win.back.domain.LoginUser;
+import com.win.back.domain.SocialUser;
 import com.win.back.dto.SignUpDTO;
 import com.win.back.entity.User;
-import com.win.back.enumpack.UserEnum;
-import com.win.back.repository.UserRepository;
 import com.win.back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -21,6 +16,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    // 일반유저 로그인 및 소셜회원 회원가입 및 소셜회원 로그인
     @PostMapping("user_login")
     @ResponseBody
     public boolean UserLoginResponse(@RequestBody Object object) {
@@ -31,7 +27,7 @@ public class UserController {
         User user = new User();
         user.setId(map.get("id"));
         user.setPw(map.get("pw"));
-        user.setEmail(map.get("email"));
+        user.setPhoneNum(map.get("phone"));
         user.setNickname(map.get("nickname"));
         user.setUserEnum(map.get("userEnum"));
 
@@ -47,10 +43,25 @@ public class UserController {
 
         SignUpDTO signUpDTO = new SignUpDTO();
         signUpDTO.setId(userMap.get("id"));
-        signUpDTO.setEmail(userMap.get("email"));
+        signUpDTO.setPhone(userMap.get("phone"));
         signUpDTO.setNickname(userMap.get("nickname"));
         signUpDTO.setPw(userMap.get("pw"));
 
         return userService.userSave(signUpDTO);
+    }
+
+    // 일반 유저 아이디 찾기
+    @GetMapping("user_search_id/{phoneNum}")
+    @ResponseBody
+    public String getIDResponse(@PathVariable String phoneNum) {
+        phoneNum = phoneNum.replaceAll("\"","");
+        String result = userService.userSearchId(phoneNum);
+
+        if (result == null) {
+            return null;
+        }
+        else {
+            return "\"" + result + "\"";
+        }
     }
 }

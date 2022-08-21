@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SignUpDTO {
     private String id;
-    private String email;
+    private String phone;
     private String nickname;
     private String pw;
 
@@ -15,7 +15,7 @@ public class SignUpDTO {
     public String toString() {
         return "SignUpDTO{" +
                 "id='" + id + '\'' +
-                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", pw='" + pw + '\'' +
                 '}';
