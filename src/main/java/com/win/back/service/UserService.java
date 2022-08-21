@@ -81,4 +81,33 @@ public class UserService {
         }
         return null;
     }
+
+    // 일반유저 비밀번호 찾기 : 유저가 있는지 확인
+    public boolean userSearchPw(String id, String phoneNum) {
+        List<User> all = userRepository.findAll();
+        for (User userList : all) {
+            if (userList.getId().equals(id) && userList.getPhoneNum().equals(phoneNum)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 일반유저 비밀번호 찾기 : 비밀번호 변경
+    public boolean userChangePw(String id, String phoneNum, String pw) {
+        List<User> all = userRepository.findAll();
+        for (User userList : all) {
+            if (userList.getId().equals(id) && userList.getPhoneNum().equals(phoneNum)) {
+                if (userList.getPw().equals(pw)) {
+                    return false;
+                }
+                else {
+                    userList.setPw(pw);
+                    userRepository.save(userList);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

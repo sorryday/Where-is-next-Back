@@ -1,7 +1,5 @@
 package com.win.back.controller;
 
-import com.win.back.domain.LoginUser;
-import com.win.back.domain.SocialUser;
 import com.win.back.dto.SignUpDTO;
 import com.win.back.entity.User;
 import com.win.back.service.UserService;
@@ -48,13 +46,12 @@ public class UserController {
         signUpDTO.setPw(userMap.get("pw"));
 
         return userService.userSave(signUpDTO);
-
     }
 
     // 일반 유저 아이디 찾기
     @GetMapping("user_search_id/{phoneNum}")
     @ResponseBody
-    public String getIDResponse(@PathVariable String phoneNum) {
+    public String GetIdResponse(@PathVariable String phoneNum) {
         phoneNum = phoneNum.replaceAll("\"","");
         String result = userService.userSearchId(phoneNum);
 
@@ -64,5 +61,33 @@ public class UserController {
         else {
             return "\"" + result + "\"";
         }
+    }
+
+    // 일반 유저 비밀번호 변경 : 가입된 회원인지 체크
+    @GetMapping("user_search_pw/{id}/{phoneNum}")
+    @ResponseBody
+    public boolean changePwSearchUserResponse(@PathVariable String id, @PathVariable String phoneNum) {
+        phoneNum = phoneNum.replaceAll("\"","");
+        id = id.replaceAll("\"","");
+
+        return userService.userSearchPw(id, phoneNum);
+    }
+
+    // 일반 유저 비밀번호 변경 : 비밀번호 변경
+    @PostMapping("user_change_pw")
+    @ResponseBody
+    public Boolean changePwResponse(@RequestBody Object object) {
+
+        Map<String, String> userMap = (Map<String, String>) object;
+
+        String id = userMap.get("id").replaceAll("\"","");
+        String phoneNum = userMap.get("phoneNum").replaceAll("\"","");
+        String pw = userMap.get("pw").replaceAll("\"","");
+
+        System.out.println("id = " + id);
+        System.out.println("phoneNum = " + phoneNum);
+        System.out.println("pw = " + pw);
+
+        return userService.userChangePw(id, phoneNum, pw);
     }
 }
