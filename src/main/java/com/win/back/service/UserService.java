@@ -1,16 +1,13 @@
 package com.win.back.service;
 
-import com.win.back.domain.LoginUser;
 import com.win.back.dto.SignUpDTO;
 import com.win.back.entity.User;
 import com.win.back.enumpack.UserEnum;
 import com.win.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +30,6 @@ public class UserService {
             for (User userList : all) {
                 // 아이디와 비밀번호가 모두 일치할 떄.
                 if (userList.getId().equals(user.getId()) && userList.getPw().equals(user.getPw())) {
-                    System.out.println("로그인 성공");
                     return true;
                 }
             }

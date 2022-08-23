@@ -1,17 +1,8 @@
 package com.win.back.controller;
 
-import com.win.back.emailAuth.EmailConfig;
 import com.win.back.emailAuth.EmailService;
-import com.win.back.emailAuth.EmailServiceImpl;
-import okhttp3.internal.http2.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.mail.MailException;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
-import javax.mail.MessagingException;
 
 @RestController
 public class emailAuthController {
