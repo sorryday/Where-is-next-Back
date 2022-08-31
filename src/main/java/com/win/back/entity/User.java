@@ -11,7 +11,6 @@ import javax.persistence.Id;
 @Getter
 @Setter
 public class User {
-
     @Id
     private String id;
     @Column
