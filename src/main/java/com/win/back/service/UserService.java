@@ -7,6 +7,10 @@ import com.win.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.util.List;
 
 @Service
@@ -105,5 +109,17 @@ public class UserService {
             }
         }
         return false;
+    }
+
+    // 일반 유저 닉네임 반환
+    public String userSearchNickName(String id) {
+        List<User> all = userRepository.findAll();
+        StringBuffer sb = new StringBuffer();
+        for (User userList : all) {
+            if (userList.getId().equals(id)) {
+                return userList.getNickname();
+            }
+        }
+        return null;
     }
 }

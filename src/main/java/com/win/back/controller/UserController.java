@@ -90,4 +90,20 @@ public class UserController {
 
         return userService.userChangePw(id, phoneNum, pw);
     }
+
+    // 일반유저 닉네임 찾기
+    @GetMapping("response_nickname/{id}")
+    @ResponseBody
+    public String getNickName(@PathVariable String id) {
+        id = id.replaceAll("\"","");
+
+        String result = userService.userSearchNickName(id);
+
+        if (result == null) {
+            return null;
+        }
+        else {
+            return "\"" + result + "\"";
+        }
+    }
 }

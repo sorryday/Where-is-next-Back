@@ -13,12 +13,16 @@ import javax.persistence.Id;
 public class User {
     @Id
     private String id;
+
     @Column
     private String pw;
+
     @Column(nullable = false)
     private String phoneNum;
-    @Column(nullable = false)
+
+    @Column
     private String nickname;
+
     @Column(nullable = false)
     private String userEnum;
 }
