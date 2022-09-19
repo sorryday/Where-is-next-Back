@@ -3,17 +3,18 @@ package com.win.back.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @Getter
 @Setter
-public class PostDTO {
+public class PostDTO implements Serializable {
     String id;
     String nickname;
     String date;
     String title;
     String contents;
-    ArrayList<String> images;
+    ArrayList<byte[]> images;
 
     @Override
     public String toString() {
