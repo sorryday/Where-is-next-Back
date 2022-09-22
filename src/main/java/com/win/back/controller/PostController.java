@@ -1,8 +1,7 @@
 package com.win.back.controller;
 
-import com.win.back.dto.AddStampDTO;
-import com.win.back.dto.AllPostDTO;
-import com.win.back.dto.PostDTO;
+import com.win.back.dto.*;
+import com.win.back.entity.Comment;
 import com.win.back.entity.Location;
 import com.win.back.service.PostService;
 import com.win.back.service.UserService;
@@ -13,6 +12,7 @@ import retrofit2.http.Body;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PostController {
@@ -45,7 +45,29 @@ public class PostController {
     @GetMapping("my_post/{id}")
     @ResponseBody
     public List<AllPostDTO> getMyPostResponse(@PathVariable String id) {
-        id = id.replaceAll("\"","");
+        id = id.replaceAll("\"", "");
         return postService.myPost(id);
+    }
+
+    // 선택한 포스트의 모든 댓글 정보를 반환
+    @GetMapping("all_comment/{selected_number}")
+    @ResponseBody
+    public List<Comment> getAllComment(@PathVariable String selected_number) {
+        selected_number = selected_number.replaceAll("\"", "");
+        return postService.allCommnet(selected_number);
+    }
+
+    // 선택한 포스트에 댓글 등록
+    @PostMapping("add_comment")
+    @ResponseBody
+    public Long setAddComment(@RequestBody CommentDTO commentDTO) {
+        return postService.addComment(commentDTO);
+    }
+
+    // 선택한 포스트에 댓글 등록
+    @PostMapping("delete_comment")
+    @ResponseBody
+    public boolean setDeleteComment(@RequestBody CommentDeleteDTO commentDeleteDTO) {
+        return postService.deleteComment(commentDeleteDTO);
     }
 }

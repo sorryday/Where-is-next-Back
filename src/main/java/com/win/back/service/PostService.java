@@ -1,11 +1,17 @@
 package com.win.back.service;
 
 import com.win.back.dto.AllPostDTO;
+import com.win.back.dto.CommentDTO;
+import com.win.back.dto.CommentDeleteDTO;
 import com.win.back.dto.PostDTO;
+import com.win.back.entity.Comment;
 import com.win.back.entity.Picture;
 import com.win.back.entity.Post;
+import com.win.back.entity.User;
+import com.win.back.repository.CommentRepository;
 import com.win.back.repository.PictureRepository;
 import com.win.back.repository.PostRepository;
+import com.win.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +25,8 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final PictureRepository pictureRepository;
+    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     // 포스트 등록
     public boolean addPost(PostDTO postDTO) {
@@ -117,5 +125,52 @@ public class PostService {
             }
         }
         return allPostDTDList;
+    }
+
+    // 선택한 포스트의 모든 댓글을 반환
+    public List<Comment> allCommnet(String selected_number) {
+        List<Comment> all = commentRepository.findAll();
+        List<Comment> selected_commentList = new ArrayList<>();
+
+        for (Comment comment : all) {
+            if (comment.getNumber_post().equals(selected_number)) {
+                selected_commentList.add(comment);
+            }
+        }
+        return selected_commentList;
+    }
+
+    // 댓글 등록
+    public Long addComment(CommentDTO commentDTO) {
+        Comment commentEntity = new Comment();
+        commentEntity.setNumber_post(commentDTO.getPost_number());
+        commentEntity.setNickname(commentDTO.getComment_nickname());
+        commentEntity.setContents(commentDTO.getComment_contents());
+
+        Comment save = commentRepository.save(commentEntity);
+
+        return save.getNumber();
+    }
+
+    // 댓글 삭제
+    public boolean deleteComment(CommentDeleteDTO commentDeleteDTO) {
+        String userNickname = null;
+        List<User> all = userRepository.findAll();
+
+        for (User user : all) {
+            if (user.getId().equals(commentDeleteDTO.getId())) {
+                userNickname = user.getNickname();
+            }
+        }
+
+        List<Comment> allCommnet = commentRepository.findAll();
+        for (Comment comment : allCommnet) {
+            if (comment.getNickname().equals(userNickname) && (comment.getNumber().equals(commentDeleteDTO.getNumber()))) {
+                commentRepository.delete(comment);
+                return true;
+            }
+        }
+
+        return false;
     }
 }
