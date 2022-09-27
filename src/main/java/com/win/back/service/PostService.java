@@ -1,9 +1,6 @@
 package com.win.back.service;
 
-import com.win.back.dto.AllPostDTO;
-import com.win.back.dto.CommentDTO;
-import com.win.back.dto.CommentDeleteDTO;
-import com.win.back.dto.PostDTO;
+import com.win.back.dto.*;
 import com.win.back.entity.Comment;
 import com.win.back.entity.Picture;
 import com.win.back.entity.Post;
@@ -14,6 +11,7 @@ import com.win.back.repository.PostRepository;
 import com.win.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -198,6 +196,42 @@ public class PostService {
             }
         }
 
+        return true;
+    }
+
+    // 포스트를 수정하는 함수
+    @Transactional
+    public boolean updatePost(PostUpdateDTO postUpdateDTO) {
+        Post post = new Post();
+        post.setNumber(Long.parseLong(postUpdateDTO.getPost_number()));
+        post.setId(postUpdateDTO.getId());
+        post.setNickname(postUpdateDTO.getNickname());
+        post.setDate(postUpdateDTO.getDate());
+        post.setTitle(postUpdateDTO.getTitle());
+        post.setContents(postUpdateDTO.getContents());
+
+        // 제목과 타이틀은 없을 수가 없으므로 update를 한다.
+        postRepository.save(post);
+
+        // 사진은 아예 없을 수 있기에 삭제를 한 후 save를 한다.
+        List<Picture> all1 = pictureRepository.findAll();
+        for (Picture loop_picture : all1) {
+            if (loop_picture.getNumber().equals(postUpdateDTO.getPost_number())) {
+                pictureRepository.delete(loop_picture);
+            }
+        }
+
+        if (!postUpdateDTO.getImages().isEmpty()) {
+            ArrayList<Picture> picture = new ArrayList<>();
+            for (int i = 0; i < postUpdateDTO.getImages().size(); i++) {
+                Picture input = new Picture();
+                input.setNumber(postUpdateDTO.getPost_number());
+                input.setPicture_bitmap(postUpdateDTO.getImages().get(i));
+
+                picture.add(input);
+            }
+            pictureRepository.saveAll(picture);
+        }
         return true;
     }
 }

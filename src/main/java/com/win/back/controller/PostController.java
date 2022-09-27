@@ -64,7 +64,7 @@ public class PostController {
         return postService.addComment(commentDTO);
     }
 
-    // 선택한 포스트에 댓글 등록
+    // 선택한 포스트에 댓글 삭제
     @PostMapping("delete_comment")
     @ResponseBody
     public boolean setDeleteComment(@RequestBody CommentDeleteDTO commentDeleteDTO) {
@@ -77,5 +77,12 @@ public class PostController {
     public boolean setDeletePost(@RequestBody String post_number) {
         post_number = post_number.replaceAll("\"", "");
         return postService.deletePost(post_number);
+    }
+
+    // 선택한 포스트를 수정
+    @PostMapping("amend_post")
+    @ResponseBody
+    public boolean UpdatePost(@RequestBody PostUpdateDTO postUpdateDTO) {
+        return postService.updatePost(postUpdateDTO);
     }
 }
