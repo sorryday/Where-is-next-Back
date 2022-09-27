@@ -173,4 +173,31 @@ public class PostService {
 
         return false;
     }
+
+    // 포스트를 삭제하는 함수(댓글과 사진 모두 삭제)
+    public boolean deletePost(String post_number) {
+        List<Post> all = postRepository.findAll();
+        for (Post post : all) {
+            if (post.getNumber().equals(Long.parseLong(post_number))) {
+                postRepository.delete(post);
+                break;
+            }
+        }
+
+        List<Picture> all2 = pictureRepository.findAll();
+        for (Picture picture : all2) {
+            if (picture.getNumber().equals(post_number)) {
+                pictureRepository.delete(picture);
+            }
+        }
+
+        List<Comment> all3 = commentRepository.findAll();
+        for (Comment comment : all3) {
+            if (comment.getNumber_post().equals(post_number)) {
+                commentRepository.delete(comment);
+            }
+        }
+
+        return true;
+    }
 }

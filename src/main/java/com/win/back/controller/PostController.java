@@ -70,4 +70,12 @@ public class PostController {
     public boolean setDeleteComment(@RequestBody CommentDeleteDTO commentDeleteDTO) {
         return postService.deleteComment(commentDeleteDTO);
     }
+
+    // 선택한 포스트를 삭제
+    @PostMapping("delete_post")
+    @ResponseBody
+    public boolean setDeletePost(@RequestBody String post_number) {
+        post_number = post_number.replaceAll("\"", "");
+        return postService.deletePost(post_number);
+    }
 }
