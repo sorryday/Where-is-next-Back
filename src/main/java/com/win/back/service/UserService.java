@@ -7,10 +7,6 @@ import com.win.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.util.List;
 
 @Service
@@ -121,5 +117,47 @@ public class UserService {
             }
         }
         return null;
+    }
+
+    // 유저의 Enum (로그인한 타입) 반환
+    public String userSearchEnum(String id) {
+        String result = null;
+        List<User> all = userRepository.findAll();
+        for (User user : all) {
+            if (user.getId().equals(id)) {
+                result = user.getUserEnum();
+                break;
+            }
+        }
+        return result;
+    }
+
+    // 로그인한 유저 객체 반환
+    public User userSearchUserObject(String id) {
+        List<User> all = userRepository.findAll();
+        for (User user : all) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // 변경하려는 닉네임 중복 체크
+    public boolean userConfirmNickName(String nickname) {
+        List<User> all = userRepository.findAll();
+        for (User user : all) {
+            if (user.getNickname().equals(nickname)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // 유저 정보 업데이트
+    public Boolean userUpdate(User changeUser) {
+        userRepository.save(changeUser);
+        return true;
     }
 }

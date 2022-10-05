@@ -17,12 +17,12 @@ public class User {
     @Column
     private String pw;
 
-    @Column(nullable = false)
+    @Column
     private String phoneNum;
 
     @Column
     private String nickname;
 
-    @Column(nullable = false)
+    @Column
     private String userEnum;
 }

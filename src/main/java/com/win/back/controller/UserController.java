@@ -106,4 +106,45 @@ public class UserController {
             return "\"" + result + "\"";
         }
     }
+
+    // 로그인한 유저의 타입 반환
+    @GetMapping("user_enum/{id}")
+    @ResponseBody
+    public String getUserEnum(@PathVariable String id) {
+        id = id.replaceAll("\"","");
+
+        String result = userService.userSearchEnum(id);
+
+        if (result == null) {
+            return null;
+        }
+        else {
+            return "\"" + result + "\"";
+        }
+    }
+
+    // 로그인한 유저 객체 반환
+    @GetMapping("profile_user/{id}")
+    @ResponseBody
+    public User getProfileUser(@PathVariable String id) {
+        id = id.replaceAll("\"","");
+
+        return userService.userSearchUserObject(id);
+    }
+
+    // 변경하려는 닉네임 중복확인
+    @GetMapping("profile_nickname_confirm/{nickname}")
+    @ResponseBody
+    public boolean getNickNameConfirm(@PathVariable String nickname) {
+        nickname = nickname.replaceAll("\"","");
+
+        return userService.userConfirmNickName(nickname);
+    }
+
+    // 유저 정보 업데이트
+    @PostMapping("profile_user_update")
+    @ResponseBody
+    public Boolean updateUserProfileResponse(@RequestBody User changeUser) {
+        return userService.userUpdate(changeUser);
+    }
 }

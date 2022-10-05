@@ -2,10 +2,12 @@ package com.win.back.service;
 
 import com.win.back.dto.AddStampDTO;
 import com.win.back.entity.Stamp;
+import com.win.back.repository.LocationSearchRepository;
 import com.win.back.repository.StampRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,5 +37,18 @@ public class StampService {
             addFlag = true;
             return false;
         }
+    }
+
+    // 유저가 획득한 스탬프 리스트를 반환하는 함수
+    public List<Stamp> getStampList(String id) {
+        List<Stamp> list = new ArrayList<>();
+
+        List<Stamp> all = stampRepository.findAll();
+        for (Stamp stamp : all) {
+            if (stamp.getId().equals(id)) {
+                list.add(stamp);
+            }
+        }
+        return list;
     }
 }
