@@ -234,4 +234,16 @@ public class PostService {
         }
         return true;
     }
+
+    // 선택된 포스트의 댓글 수를 반환
+    public String postCommnetCnt(String post_number) {
+        int cnt = 0;
+        List<Comment> all = commentRepository.findAll();
+        for (Comment comment : all) {
+            if (comment.getNumber_post().equals(post_number)) {
+                cnt += 1;
+            }
+        }
+        return Integer.toString(cnt);
+    }
 }

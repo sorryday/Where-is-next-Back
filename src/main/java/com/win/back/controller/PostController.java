@@ -85,4 +85,19 @@ public class PostController {
     public boolean UpdatePost(@RequestBody PostUpdateDTO postUpdateDTO) {
         return postService.updatePost(postUpdateDTO);
     }
+
+    // 포스트 별로 댓글 수를 반환
+    @GetMapping("post_comment_cnt/{post_number}")
+    @ResponseBody
+    public String getPostCommentCnt(@PathVariable String post_number) {
+        post_number = post_number.replaceAll("\"", "");
+
+        String result = postService.postCommnetCnt(post_number);
+        if (result == null) {
+            return null;
+        }
+        else {
+            return "\"" + result + "\"";
+        }
+    }
 }
