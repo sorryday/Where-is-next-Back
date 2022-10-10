@@ -147,4 +147,22 @@ public class UserController {
     public Boolean updateUserProfileResponse(@RequestBody User changeUser) {
         return userService.userUpdate(changeUser);
     }
+
+    // 로그인한 유저의 포인트 반환
+    @GetMapping("my_point/{id}")
+    @ResponseBody
+    public String getMyPoint(@PathVariable String id) {
+        id = id.replaceAll("\"","");
+
+        String result = userService.userPoint(id);
+
+        if (result == null) {
+            return null;
+        }
+        else {
+            return "\"" + result + "\"";
+        }
+
+    }
+
 }

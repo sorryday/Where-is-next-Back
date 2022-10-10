@@ -1,25 +1,34 @@
 package com.win.back.service;
 
 import com.win.back.dto.SignUpDTO;
+import com.win.back.entity.Point;
 import com.win.back.entity.User;
 import com.win.back.enumpack.UserEnum;
+import com.win.back.repository.PointRepository;
 import com.win.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PointRepository pointRepository;
 
     public Boolean userLogin(User user) {
         // 소셜 로그인일 때 : 가입이 안되있다면, 로그인 하면서 가입까지 같이 처리
         if (!user.getUserEnum().toString().equals("LoginUser")) {
             if (userRepository.findById(user.getId()).isEmpty()) {
                 userRepository.save(user);
+
+                Point point = new Point();
+                point.setId(user.getId());
+                point.setPoint("0");
+                pointRepository.save(point);
             }
             return true;
         }
@@ -60,6 +69,12 @@ public class UserService {
             user.setUserEnum(UserEnum.LoginUser.toString());
 
             userRepository.save(user);
+
+            Point point = new Point();
+            point.setId(user.getId());
+            point.setPoint("0");
+            pointRepository.save(point);
+
             return true;
         }
         else {
@@ -159,5 +174,11 @@ public class UserService {
     public Boolean userUpdate(User changeUser) {
         userRepository.save(changeUser);
         return true;
+    }
+
+    // 로그인한 유저의 포인트 반환
+    public String userPoint(String id) {
+        Optional<Point> byId = pointRepository.findById(id);
+        return byId.get().getPoint();
     }
 }
