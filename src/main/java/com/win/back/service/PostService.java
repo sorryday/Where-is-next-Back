@@ -1,14 +1,8 @@
 package com.win.back.service;
 
 import com.win.back.dto.*;
-import com.win.back.entity.Comment;
-import com.win.back.entity.Picture;
-import com.win.back.entity.Post;
-import com.win.back.entity.User;
-import com.win.back.repository.CommentRepository;
-import com.win.back.repository.PictureRepository;
-import com.win.back.repository.PostRepository;
-import com.win.back.repository.UserRepository;
+import com.win.back.entity.*;
+import com.win.back.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +19,7 @@ public class PostService {
     private final PictureRepository pictureRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final HeartRepository heartRepository;
 
     // 포스트 등록
     public boolean addPost(PostDTO postDTO) {
@@ -245,5 +240,52 @@ public class PostService {
             }
         }
         return Integer.toString(cnt);
+    }
+
+    // 선택된 포스트의 좋아요 수를 반환
+    public String postHeartCnt(String post_number) {
+        int cnt = 0;
+        List<Heart> all = heartRepository.findAll();
+        for (Heart heart : all) {
+            if (heart.getPost_number().equals(post_number)) {
+                cnt += 1;
+            }
+        }
+        return Integer.toString(cnt);
+    }
+
+    // 현재 로그인한 사용자가 해당 포스트에 좋아요를 눌렀는지 판별
+    public boolean isCheckHeart(HeartCheckDTO heartCheckDTO) {
+        List<Heart> all = heartRepository.findAll();
+        for (Heart heart : all) {
+            if (heart.getPost_number().equals(heartCheckDTO.getPost_number()) && heart.getId().equals(heartCheckDTO.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 현재 로그인한 사용자가 해당 포스트에 좋아요 버튼을 눌렀을 때 해당 게시물의 좋아요 추가
+    public boolean heartPlus(HeartCheckDTO heartCheckDTO) {
+        Heart heart = new Heart();
+        heart.setPost_number(heartCheckDTO.getPost_number());
+        heart.setId(heartCheckDTO.getId());
+
+        heartRepository.save(heart);
+
+        return true;
+    }
+
+    // 현재 로그인한 사용자가 해당 포스트에 좋아요 버튼을 눌렀을 때 해당 게시물의 좋아요 삭제
+    public boolean heartMin(HeartCheckDTO heartCheckDTO) {
+        List<Heart> all = heartRepository.findAll();
+        for (Heart heart : all) {
+            if (heart.getPost_number().equals(heartCheckDTO.getPost_number()) && heart.getId().equals(heartCheckDTO.getId())) {
+                heartRepository.delete(heart);
+                return true;
+            }
+        }
+
+        return true;
     }
 }

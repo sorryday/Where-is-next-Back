@@ -100,4 +100,40 @@ public class PostController {
             return "\"" + result + "\"";
         }
     }
+
+    // 포스트 별로 좋아요 수를 반환
+    @GetMapping("post_heart_cnt/{post_number}")
+    @ResponseBody
+    public String getPostHeartCnt(@PathVariable String post_number) {
+        post_number = post_number.replaceAll("\"", "");
+
+        String result = postService.postHeartCnt(post_number);
+        if (result == null) {
+            return null;
+        }
+        else {
+            return "\"" + result + "\"";
+        }
+    }
+
+    // 현재 로그인한 사용자가 해당 포스트에 좋아요를 눌렀는지 판별
+    @PostMapping("heart_check")
+    @ResponseBody
+    public boolean getIsCheckHeart(@RequestBody HeartCheckDTO heartCheckDTO) {
+        return postService.isCheckHeart(heartCheckDTO);
+    }
+
+    // 현재 로그인한 사용자가 해당 포스트에 좋아요 버튼을 눌렀을 때 해당 게시물의 좋아요 추가
+    @PostMapping("heart_plus")
+    @ResponseBody
+    public boolean getHeartPlus(@RequestBody HeartCheckDTO heartCheckDTO) {
+        return postService.heartPlus(heartCheckDTO);
+    }
+
+    // 현재 로그인한 사용자가 해당 포스트에 좋아요 버튼을 눌렀을 때 해당 게시물의 좋아요 삭제
+    @PostMapping("heart_min")
+    @ResponseBody
+    public boolean getHeartMin(@RequestBody HeartCheckDTO heartCheckDTO) {
+        return postService.heartMin(heartCheckDTO);
+    }
 }
