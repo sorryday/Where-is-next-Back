@@ -8,13 +8,13 @@
 ##### 코로나 19로 인한 거리두기의 제한이 완화 및 풀리면서 여행에 대한 관심 증가
 ##### 여행의 재미를 더해줄 스탬프 투어 어플리케이션을 제작
 
-## 1. 개발 동기
+## 1. ERD
+![1asa](https://user-images.githubusercontent.com/49806698/196390755-d556699f-30eb-487b-b584-7225cae0a533.PNG)
 
-## 2. 개발 환경
+## 2. API 명세서
+![zxbzxcvewf](https://user-images.githubusercontent.com/49806698/196393538-db6f59fa-3ac7-4178-8f32-975ded34d565.PNG)
+![asdafzxvzxc](https://user-images.githubusercontent.com/49806698/196393548-54640490-d1ea-4eea-ab82-469ee738814a.PNG)
 
-## 3. 프로젝트 기능
-
-## 4. 프로젝트 구현 - 로그인 & 회원 가입 & 아이디/비밀번호 찾기
 
 Front-End : https://github.com/sorryday/Where-is-next-Application 
 
@@ -23,4 +23,3 @@ Front-End : https://github.com/sorryday/Where-is-next-Application
 > Spring Boot for MAC(Window)
 > 
 > AWS EC2, AWS RDS
-
