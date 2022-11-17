@@ -2,7 +2,7 @@
 # 스탬프 투어 프로젝트
 
 #### Project nickname : Where-is-next
-#### Project execution period : 2022.07.02 ~ 2020.10.14
+#### Project execution period : 2022.07.02 ~ 2022.10.14
 -----------------------
 ## Description
 ##### 코로나 19로 인한 거리두기의 제한이 완화 및 풀리면서 여행에 대한 관심 증가
@@ -20,6 +20,6 @@ Front-End : https://github.com/sorryday/Where-is-next-Application
 
 ## Environment
 
-> Spring Boot for MAC(Window)
+> Spring Boot for MAC
 > 
 > AWS EC2, AWS RDS
